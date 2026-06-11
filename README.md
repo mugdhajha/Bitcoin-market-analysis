@@ -178,21 +178,47 @@ The hypothesis was supported.
 
 ## Feature Engineering Experiments
 
-### Experiment 1: Adding MACD
+Beyond the baseline model, multiple technical indicators and momentum-based features were tested to evaluate whether they improved predictive performance.
+
+### Baseline Random Forest
+
+Features:
+
+* Daily Return
+* Volatility
+* RSI
+* Close_vs_MA30_ratio
+* MA7_vs_MA30_ratio
+
+Accuracy:
+
+```text
+52.09%
+```
+
+Feature Importance:
+
+```text
+Daily_return          22.8%
+RSI                   20.9%
+Volatility            20.6%
+MA7_vs_MA30_ratio     18.8%
+Close_vs_MA30_ratio   16.9%
+```
+
+---
+
+### Experiment 1: MACD
 
 #### Hypothesis
 
-The Moving Average Convergence Divergence (MACD) indicator captures momentum by measuring the difference between short-term and long-term exponential moving averages. Since momentum-related features such as Daily Return and RSI showed strong importance in the baseline Random Forest model, MACD was expected to provide additional predictive signal.
+Since momentum-related indicators such as Daily Return and RSI were among the most important features, MACD was expected to provide additional predictive signal.
 
 #### Implementation
 
-MACD was computed as:
+MACD was calculated using the difference between the 12-day and 26-day exponential moving averages.
 
-```text
-MACD = EMA12 - EMA26
-```
-
-To account for Bitcoin's large price appreciation over time, a normalized feature was created:
+To account for Bitcoin's changing price scale over time, a normalized feature was created:
 
 ```text
 MACD_ratio = MACD / Close
@@ -200,12 +226,13 @@ MACD_ratio = MACD / Close
 
 #### Results
 
-| Model                      | Accuracy |
-| -------------------------- | -------- |
-| Baseline Random Forest     | 52.09%   |
-| Random Forest + MACD_ratio | 51.25%   |
+Accuracy:
 
-Feature Importance Ranking:
+```text
+51.25%
+```
+
+Feature Importance:
 
 ```text
 Daily_return          19.2%
@@ -216,23 +243,90 @@ Close_vs_MA30_ratio   14.4%
 MA7_vs_MA30_ratio     13.9%
 ```
 
-#### Interpretation
+#### Findings
 
-Although MACD_ratio became one of the most important features in the Random Forest model, overall test accuracy decreased.
+Although MACD_ratio became one of the most important features in the model, overall accuracy decreased.
 
-This suggests that MACD contains information that the model actively uses, but the discovered patterns do not generalize well to unseen data. In other words, MACD may introduce predictive patterns that are unstable across different market regimes.
+This suggests that MACD contains information that the model actively uses, but the discovered patterns do not generalize well to unseen market conditions.
 
 #### Conclusion
 
 The hypothesis was partially supported.
 
-* MACD captured meaningful market information.
+* MACD captured meaningful information.
 * The model assigned high importance to the feature.
-* However, the additional information did not improve out-of-sample predictive performance.
+* However, it did not improve out-of-sample predictive performance.
 
-This highlights an important machine learning principle:
+---
 
-> A feature can appear important to a model while still failing to improve real-world prediction accuracy.
+### Experiment 2: Multi-Day Momentum Features
+
+#### Hypothesis
+
+Longer-term momentum may contain additional predictive information beyond single-day returns.
+
+Two new features were created:
+
+```text
+Return_7D
+Return_30D
+```
+
+#### Results
+
+Accuracy:
+
+```text
+51.49%
+```
+
+Feature Importance:
+
+```text
+Daily_return          18.4%
+RSI                   15.4%
+Volatility            15.0%
+Return_7D             13.4%
+MA7_vs_MA30_ratio     13.1%
+Return_30D            12.5%
+Close_vs_MA30_ratio   12.3%
+```
+
+#### Findings
+
+The new momentum features received substantial feature importance, indicating that the model considered them useful.
+
+However, overall predictive performance remained below the baseline Random Forest model.
+
+#### Conclusion
+
+The hypothesis was partially supported.
+
+While the model utilized the momentum features, the additional information failed to improve generalization on unseen data.
+
+---
+
+## Experiment Summary
+
+| Model Configuration                     | Accuracy   |
+| --------------------------------------- | ---------- |
+| Logistic Regression                     | 49.22%     |
+| Logistic Regression + Momentum Features | 48.87%     |
+| Logistic Regression (7-Day Target)      | 50.66%     |
+| Random Forest (Baseline)                | **52.09%** |
+| Random Forest + MACD_ratio              | 51.25%     |
+| Random Forest + Return_7D + Return_30D  | 51.49%     |
+
+---
+
+## Key Takeaways
+
+* Random Forest consistently outperformed Logistic Regression.
+* Non-linear relationships exist within the technical indicators.
+* Traditional technical indicators contain a small amount of predictive signal.
+* Additional features such as MACD and multi-day momentum increased feature complexity but failed to improve out-of-sample accuracy.
+* Short-term Bitcoin direction remains difficult to predict using technical indicators derived solely from historical OHLCV data.
+* Model performance suggests that additional information sources or alternative feature engineering approaches may be required to achieve meaningful predictive gains.
 
 
 
