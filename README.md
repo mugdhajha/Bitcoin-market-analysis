@@ -306,6 +306,95 @@ While the model utilized the momentum features, the additional information faile
 
 ---
 
+### Experiment 3: Bollinger Bands
+
+#### Hypothesis
+
+Previous experiments indicated that Volatility was consistently among the most important features in the Random Forest model.
+
+Since Bollinger Bands combine both price and volatility information, it was hypothesized that they could capture market conditions not represented by traditional moving-average ratios.
+
+A normalized feature was created:
+
+```text
+BB_position
+```
+
+which measures the position of the current price within the Bollinger Band range.
+
+Interpretation:
+
+```text
+0.0 → Price near lower band
+0.5 → Price near middle band
+1.0 → Price near upper band
+```
+
+#### Results
+
+Accuracy:
+
+```text
+51.61%
+```
+
+Feature Importance:
+
+```text
+Daily_return          20.7%
+RSI                   17.5%
+BB_position           17.0%
+Volatility            16.7%
+MA7_vs_MA30_ratio     14.9%
+Close_vs_MA30_ratio   13.2%
+```
+
+#### Findings
+
+BB_position immediately became one of the most important features in the model, ranking third overall behind Daily Return and RSI.
+
+This indicates that the model was able to extract useful information from the relationship between price and volatility.
+
+However, despite its high importance, overall predictive performance remained below the baseline Random Forest model.
+
+#### Conclusion
+
+The hypothesis was partially supported.
+
+* Bollinger Bands captured meaningful market information.
+* The model assigned substantial importance to BB_position.
+* However, the additional feature did not improve out-of-sample prediction accuracy.
+
+This result reinforces a recurring theme observed throughout the project:
+
+> A feature can contain useful information and still fail to improve predictive performance on unseen data.
+
+#### Comparison with Previous Experiments
+
+| Experiment               | Random Forest Accuracy |
+| ------------------------ | ---------------------: |
+| Baseline Random Forest   |             **52.09%** |
+| + MACD_ratio             |                 51.25% |
+| + Return_7D + Return_30D |                 51.49% |
+| + BB_position            |                 51.61% |
+
+#### Key Insight
+
+Across all experiments, newly engineered features consistently received meaningful feature importance scores, indicating that they contained information relevant to market behavior.
+
+However, none of the added features surpassed the baseline model, suggesting that much of the useful signal may already be captured by the original feature set:
+
+```text
+Daily_return
+RSI
+Volatility
+Close_vs_MA30_ratio
+MA7_vs_MA30_ratio
+```
+
+This suggests that short-term Bitcoin direction is difficult to predict using technical indicators derived solely from historical price and volume data.
+
+
 ## Experiment Summary
 
 | Model Configuration                     | Accuracy   |
@@ -327,6 +416,10 @@ While the model utilized the momentum features, the additional information faile
 * Additional features such as MACD and multi-day momentum increased feature complexity but failed to improve out-of-sample accuracy.
 * Short-term Bitcoin direction remains difficult to predict using technical indicators derived solely from historical OHLCV data.
 * Model performance suggests that additional information sources or alternative feature engineering approaches may be required to achieve meaningful predictive gains.
+
+## Conclusion
+
+Multiple momentum and volatility-based indicators were evaluated. Although several engineered features achieved high model importance, none improved out-of-sample performance beyond the baseline Random Forest model (52.09%). This suggests that additional technical indicators largely capture information already present in the original feature set.
 
 
 
