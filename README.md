@@ -1,27 +1,31 @@
-# Bitcoin Market Analysis & Predictive Modeling
+# ₿ Bitcoin Market Analysis & Predictive Modeling
 
 ## Overview
 
-This project performs an end-to-end data science analysis of Bitcoin's historical market behavior from September 2014 to June 2026 using daily OHLCV (Open, High, Low, Close, Volume) data.
+This project presents an end-to-end data science investigation of Bitcoin's historical market behavior from September 2014 to June 2026 using daily OHLCV (Open, High, Low, Close, Volume) data.
 
-The objective was not only to explore Bitcoin's market dynamics but also to investigate whether commonly used technical indicators can predict future price direction.
+The primary objective was to determine whether commonly used technical indicators can predict future Bitcoin price direction and to evaluate the effectiveness of different machine learning models and feature engineering techniques.
 
 The project follows a complete data science workflow:
 
 * Data Understanding
 * Exploratory Data Analysis (EDA)
 * Feature Engineering
-* Predictive Modeling
 * Hypothesis Testing
+* Predictive Modeling
+* Model Evaluation
+* Experiment Tracking
 * Insight Generation
 
 ---
 
 ## Dataset
 
+**Source:** Historical Bitcoin Market Data
+
 **Period Covered:** 2014-09-17 to 2026-06-05
 
-**Observations:** 4,280 daily records
+**Observations:** 4,280 Daily Records
 
 ### Features
 
@@ -56,7 +60,7 @@ bitcoin-market-analysis/
 ├── figures/
 │
 ├── reports/
-│   └── findings.md
+│   └── final_report.md
 │
 ├── src/
 │
@@ -67,76 +71,58 @@ bitcoin-market-analysis/
 
 ---
 
-## Exploratory Data Analysis
+# Exploratory Data Analysis
 
-### Market Evolution
+## Market Evolution
 
-Bitcoin exhibited exponential long-term growth with multiple bull and bear market cycles across the 11-year period.
+Bitcoin exhibited strong long-term growth while experiencing multiple bull and bear market cycles throughout the 11-year period.
 
-### Largest Daily Gain
+The asset demonstrated increasingly complex market behavior as adoption expanded globally.
 
-* Date: 2017-12-07
-* Return: +25.25%
+---
 
-### Largest Daily Loss
+## Largest Daily Gain
 
-* Date: 2020-03-12
-* Return: -37.17%
+| Metric | Value      |
+| ------ | ---------- |
+| Date   | 2017-12-07 |
+| Return | +25.25%    |
 
-Interestingly, the largest daily decline occurred during the COVID-19 market panic rather than the 2018 bear market.
+---
+
+## Largest Daily Loss
+
+| Metric | Value      |
+| ------ | ---------- |
+| Date   | 2020-03-12 |
+| Return | -37.17%    |
+
+The largest daily decline occurred during the COVID-19 market panic rather than during the 2018 crypto bear market.
 
 ---
 
 ## Volatility Analysis
 
-A 30-day rolling volatility measure was created to analyze market risk.
+A 30-day rolling volatility measure was created to study market risk over time.
 
-### Key Findings
+### Findings
 
-* Peak volatility occurred during the COVID-19 crisis.
 * Volatility clustered around major market events.
-* Recent years showed lower average volatility compared to earlier speculative cycles.
-
-This supports the hypothesis that Bitcoin may be gradually maturing as an asset class.
-
----
-
-## Feature Engineering
-
-The following technical indicators were engineered:
-
-### Trend Features
-
-* MA7 (7-Day Moving Average)
-* MA30 (30-Day Moving Average)
-* MA90 (90-Day Moving Average)
-
-### Relative Strength Features
-
-* RSI (14-Day Relative Strength Index)
-
-### Momentum Features
-
-* Daily Return
-
-### Risk Features
-
-* 30-Day Rolling Volatility
-
-### Relative Trend Ratios
-
-* Close_vs_MA30_ratio
-* MA7_vs_MA30_ratio
+* Peak volatility occurred during the COVID-19 crash.
+* Recent years exhibited lower average volatility than earlier speculative cycles.
+* Results suggest gradual market maturation over time.
 
 ---
 
-## Hypothesis Testing
+# Hypothesis Testing
 
-### Hypothesis 1
+## Hypothesis 1
 
-Higher trading volume should be associated with higher volatility.
+### Statement
 
-**Result**
+Higher trading volume should be associated with higher market volatility.
+
+### Result
 
 Correlation:
 
@@ -144,56 +130,140 @@ Correlation:
 -0.0245
 ```
 
-**Conclusion**
+### Conclusion
 
-Virtually no linear relationship exists between trading volume and volatility in this dataset.
+Virtually no linear relationship was observed between trading volume and volatility.
 
-The original hypothesis was rejected.
+**Hypothesis Rejected**
 
 ---
 
-### Hypothesis 2
+## Hypothesis 2
+
+### Statement
 
 Bitcoin should be more volatile during major speculative cycles.
 
-**Result**
+### Result
 
-Highest average volatility:
+Highest average volatility occurred during:
 
 * 2017
 * 2018
 * 2021
 
-Lower volatility observed in:
+Lowest average volatility occurred during:
 
 * 2023
 * 2024
 * 2025
 
-**Conclusion**
+### Conclusion
 
-The hypothesis was supported.
+Periods of speculation and uncertainty exhibited significantly higher volatility.
+
+**Hypothesis Supported**
 
 ---
 
-## Feature Engineering Experiments
+# Feature Engineering
 
-Beyond the baseline model, multiple technical indicators and momentum-based features were tested to evaluate whether they improved predictive performance.
+The following technical indicators were engineered.
 
-### Baseline Random Forest
+## Trend Features
 
-Features:
+* MA7 (7-Day Moving Average)
+* MA30 (30-Day Moving Average)
+* MA90 (90-Day Moving Average)
+
+## Momentum Features
 
 * Daily Return
-* Volatility
-* RSI
+
+## Risk Features
+
+* 30-Day Rolling Volatility
+
+## Relative Strength Features
+
+* RSI (14-Day Relative Strength Index)
+
+## Relative Trend Features
+
 * Close_vs_MA30_ratio
 * MA7_vs_MA30_ratio
+
+---
+
+# Predictive Modeling
+
+## Objective
+
+Predict future Bitcoin price direction using technical indicators derived from historical market data.
+
+---
+
+## Target Variable
+
+Binary Classification:
+
+```text
+1 → Price increases
+0 → Price decreases
+```
+
+---
+
+## Evaluation Strategy
+
+Chronological Train-Test Split (80/20)
+
+This prevents information leakage from future observations into the training set.
+
+---
+
+## Model 1 — Logistic Regression
+
+### Motivation
+
+Logistic Regression was used as a baseline linear classification model.
+
+### Results
+
+Accuracy:
+
+```text
+49.22%
+```
+
+### Key Findings
+
+* Performance was close to random guessing.
+* Linear relationships were insufficient for modeling Bitcoin price direction.
+* Technical indicators showed weak predictive power under a linear framework.
+
+---
+
+## Model 2 — Random Forest
+
+### Motivation
+
+Random Forest was selected to capture non-linear relationships and interactions between technical indicators.
+
+### Results
 
 Accuracy:
 
 ```text
 52.09%
+```
+
+Classification Report:
+
+```text
+Precision: 0.52
+Recall:    0.52
+F1-Score:  0.51
 ```
 
 Feature Importance:
@@ -206,25 +276,69 @@ MA7_vs_MA30_ratio     18.8%
 Close_vs_MA30_ratio   16.9%
 ```
 
+### Key Findings
+
+* Random Forest outperformed Logistic Regression.
+* Non-linear relationships exist within the technical indicators.
+* Daily Return emerged as the strongest predictive feature.
+* RSI and Volatility contributed significantly more information than simple correlation analysis suggested.
+
 ---
 
-### Experiment 1: MACD
+## Model 3 — XGBoost
 
-#### Hypothesis
+### Motivation
 
-Since momentum-related indicators such as Daily Return and RSI were among the most important features, MACD was expected to provide additional predictive signal.
+XGBoost was evaluated to determine whether a more advanced gradient boosting algorithm could extract additional predictive signal.
 
-#### Implementation
+### Results
 
-MACD was calculated using the difference between the 12-day and 26-day exponential moving averages.
-
-To account for Bitcoin's changing price scale over time, a normalized feature was created:
+Accuracy:
 
 ```text
-MACD_ratio = MACD / Close
+50.66%
 ```
 
-#### Results
+Classification Report:
+
+```text
+Precision: 0.51
+Recall:    0.51
+F1-Score:  0.50
+```
+
+Feature Importance:
+
+```text
+Close_vs_MA30_ratio    18.3%
+BB_position            17.6%
+Daily_return           16.6%
+MA7_vs_MA30_ratio      16.0%
+Volatility             15.9%
+RSI                    15.5%
+```
+
+### Key Findings
+
+* XGBoost identified different feature relationships than Random Forest.
+* Trend-based indicators received higher importance.
+* Performance remained below the baseline Random Forest model.
+
+---
+
+# Feature Engineering Experiments
+
+A series of controlled experiments were conducted to evaluate whether additional technical indicators improved predictive performance.
+
+---
+
+## Experiment 1 — MACD
+
+### Hypothesis
+
+MACD should improve prediction accuracy because momentum-related features performed strongly in the baseline model.
+
+### Result
 
 Accuracy:
 
@@ -232,47 +346,22 @@ Accuracy:
 51.25%
 ```
 
-Feature Importance:
+### Conclusion
 
-```text
-Daily_return          19.2%
-Volatility            18.0%
-RSI                   17.3%
-MACD_ratio            17.2%
-Close_vs_MA30_ratio   14.4%
-MA7_vs_MA30_ratio     13.9%
-```
-
-#### Findings
-
-Although MACD_ratio became one of the most important features in the model, overall accuracy decreased.
-
-This suggests that MACD contains information that the model actively uses, but the discovered patterns do not generalize well to unseen market conditions.
-
-#### Conclusion
-
-The hypothesis was partially supported.
-
-* MACD captured meaningful information.
-* The model assigned high importance to the feature.
-* However, it did not improve out-of-sample predictive performance.
+MACD captured useful information but failed to improve out-of-sample performance.
 
 ---
 
-### Experiment 2: Multi-Day Momentum Features
+## Experiment 2 — Multi-Day Momentum Features
 
-#### Hypothesis
-
-Longer-term momentum may contain additional predictive information beyond single-day returns.
-
-Two new features were created:
+Features Added:
 
 ```text
 Return_7D
 Return_30D
 ```
 
-#### Results
+### Result
 
 Accuracy:
 
@@ -280,57 +369,21 @@ Accuracy:
 51.49%
 ```
 
-Feature Importance:
+### Conclusion
 
-```text
-Daily_return          18.4%
-RSI                   15.4%
-Volatility            15.0%
-Return_7D             13.4%
-MA7_vs_MA30_ratio     13.1%
-Return_30D            12.5%
-Close_vs_MA30_ratio   12.3%
-```
-
-#### Findings
-
-The new momentum features received substantial feature importance, indicating that the model considered them useful.
-
-However, overall predictive performance remained below the baseline Random Forest model.
-
-#### Conclusion
-
-The hypothesis was partially supported.
-
-While the model utilized the momentum features, the additional information failed to improve generalization on unseen data.
+Longer-term momentum features were utilized by the model but did not improve predictive performance.
 
 ---
 
-### Experiment 3: Bollinger Bands
+## Experiment 3 — Bollinger Bands
 
-#### Hypothesis
-
-Previous experiments indicated that Volatility was consistently among the most important features in the Random Forest model.
-
-Since Bollinger Bands combine both price and volatility information, it was hypothesized that they could capture market conditions not represented by traditional moving-average ratios.
-
-A normalized feature was created:
+Feature Added:
 
 ```text
 BB_position
 ```
 
-which measures the position of the current price within the Bollinger Band range.
-
-Interpretation:
-
-```text
-0.0 → Price near lower band
-0.5 → Price near middle band
-1.0 → Price near upper band
-```
-
-#### Results
+### Result
 
 Accuracy:
 
@@ -338,67 +391,15 @@ Accuracy:
 51.61%
 ```
 
-Feature Importance:
+### Conclusion
 
-```text
-Daily_return          20.7%
-RSI                   17.5%
-BB_position           17.0%
-Volatility            16.7%
-MA7_vs_MA30_ratio     14.9%
-Close_vs_MA30_ratio   13.2%
-```
+Bollinger Bands captured meaningful market information but failed to outperform the baseline model.
 
-#### Findings
+---
 
-BB_position immediately became one of the most important features in the model, ranking third overall behind Daily Return and RSI.
+## Experiment 4 — Feature Selection
 
-This indicates that the model was able to extract useful information from the relationship between price and volatility.
-
-However, despite its high importance, overall predictive performance remained below the baseline Random Forest model.
-
-#### Conclusion
-
-The hypothesis was partially supported.
-
-* Bollinger Bands captured meaningful market information.
-* The model assigned substantial importance to BB_position.
-* However, the additional feature did not improve out-of-sample prediction accuracy.
-
-This result reinforces a recurring theme observed throughout the project:
-
-> A feature can contain useful information and still fail to improve predictive performance on unseen data.
-
-#### Comparison with Previous Experiments
-
-| Experiment               | Random Forest Accuracy |
-| ------------------------ | ---------------------: |
-| Baseline Random Forest   |             **52.09%** |
-| + MACD_ratio             |                 51.25% |
-| + Return_7D + Return_30D |                 51.49% |
-| + BB_position            |                 51.61% |
-
-#### Key Insight
-
-Across all experiments, newly engineered features consistently received meaningful feature importance scores, indicating that they contained information relevant to market behavior.
-
-However, none of the added features surpassed the baseline model, suggesting that much of the useful signal may already be captured by the original feature set:
-
-```text
-Daily_return
-RSI
-Volatility
-Close_vs_MA30_ratio
-MA7_vs_MA30_ratio
-```
-
-This suggests that short-term Bitcoin direction is difficult to predict using technical indicators derived solely from historical price and volume data.
-
-### Experiment 4: Feature Selection
-
-#### Hypothesis
-
-Previous experiments consistently identified the following features as the strongest predictors:
+Features Retained:
 
 ```text
 Daily_return
@@ -406,17 +407,7 @@ RSI
 Volatility
 ```
 
-It was hypothesized that removing lower-ranked features could reduce noise and improve model generalization.
-
-The reduced feature set consisted of:
-
-```text
-Daily_return
-RSI
-Volatility
-```
-
-#### Results
+### Result
 
 Accuracy:
 
@@ -424,205 +415,72 @@ Accuracy:
 51.01%
 ```
 
-Feature Importance:
-
-```text
-RSI            34.3%
-Daily_return   34.1%
-Volatility     31.6%
-```
-
-#### Findings
-
-The reduced model relied heavily on the three selected features, assigning nearly equal importance to each.
-
-However, despite retaining only the strongest predictors, model performance declined relative to the baseline Random Forest model.
-
-Comparison:
-
-| Model Configuration    | Accuracy   |
-| ---------------------- | ---------- |
-| Baseline Random Forest | **52.09%** |
-| Top 3 Features Only    | 51.01%     |
-
-#### Interpretation
-
-The results suggest that lower-ranked features still contribute useful information to the prediction task.
-
-Although features such as:
-
-```text
-Close_vs_MA30_ratio
-MA7_vs_MA30_ratio
-```
-
-appeared less important individually, they provided complementary information that improved overall model performance.
-
-This demonstrates an important machine learning principle:
-
-> Features with lower importance scores are not necessarily useless. Multiple weak predictors can collectively improve model performance.
-
-#### Conclusion
-
-The hypothesis was not supported.
-
-* Removing lower-ranked features did not improve generalization.
-* Model accuracy decreased by approximately 1%.
-* The original feature set remained the strongest-performing configuration.
-
-This suggests that predictive information is distributed across multiple indicators rather than being concentrated in only a few dominant features.
-
-
-
-## Experiment Summary
-
-| Model Configuration                     | Accuracy   |
-| --------------------------------------- | ---------- |
-| Logistic Regression                     | 49.22%     |
-| Logistic Regression + Momentum Features | 48.87%     |
-| Logistic Regression (7-Day Target)      | 50.66%     |
-| Random Forest (Baseline)                | **52.09%** |
-| Random Forest + MACD_ratio              | 51.25%     |
-| Random Forest + Return_7D + Return_30D  | 51.49%     |
-| Random Forest + BB_position             | 51.61%     |
-| Random Forest (Top 3 Features Only)     | 51.01%     |
-
-## Updated Key Takeaways
-
-* Random Forest consistently outperformed Logistic Regression.
-* Non-linear relationships exist within the technical indicators.
-* Daily Return, RSI, and Volatility emerged as the most consistently important features across experiments.
-* MACD, Bollinger Bands, and Multi-Day Momentum features contained information but failed to improve out-of-sample accuracy.
-* Feature selection experiments showed that lower-ranked indicators still contributed complementary predictive information.
-* The baseline Random Forest model remained the best-performing configuration with an accuracy of 52.09%.
-* Short-term Bitcoin direction remains difficult to predict using traditional technical indicators derived solely from historical OHLCV data.
-* The results suggest that additional data sources or fundamentally different features may be required to achieve meaningful predictive improvements.
-
-## Overall Conclusion
-
-Across multiple feature engineering and model experimentation cycles, the strongest-performing model remained the baseline Random Forest classifier with an accuracy of 52.09%.
-
-Several additional indicators—including MACD, Bollinger Bands, and multi-day momentum features—received substantial feature importance scores, demonstrating that they captured meaningful market information. However, none improved out-of-sample predictive performance.
-
-These findings suggest that while technical indicators contain a small amount of predictive signal, much of the useful information is already captured by the original feature set. The results also highlight the inherent difficulty of forecasting short-term Bitcoin price direction using only historical price and volume data.
-
-
-
-
-## Predictive Modeling
-
-### Objective
-
-Predict future Bitcoin direction using technical indicators.
-
-### Features Used
-
-* Daily Return
-* Volatility
-* RSI
-* Close_vs_MA30_ratio
-* MA7_vs_MA30_ratio
-
-### Model 1
-
-Logistic Regression
-
-### Evaluation Strategy
-
-Chronological Train-Test Split (80/20)
-
-This avoids information leakage from future observations into the training set.
-
----
-
-## Results
-
-### Logistic Regression
-
-Accuracy:
-
-```text
-~49%
-```
-
-### Key Insight
-
-Despite extensive feature engineering, traditional technical indicators demonstrated limited predictive power for short-term Bitcoin direction.
-
-Correlation analysis revealed extremely weak relationships between engineered features and future price movement.
-
-This explains the model's near-random performance.
-
----
-
-### Model 2
-
-Random forest Classifier
-
-### Motivation
-
-Unlike Logistic Regression, Random Forest can capture non-linear relationships and interactions between technical indicators.
-
-### Results
-
-### Random Forest
-
-Accuracy:
-
-52.09%
-
-### Classification Report:
-
-Precision: 0.52
-Recall: 0.52
-F1-Score: 0.51
-
-### Feature Importance Ranking
-
-1. Daily Return           22.8%
-2. RSI                    20.9%
-3. Volatility             20.6%
-4. MA7_vs_MA30_ratio      18.8%
-5. Close_vs_MA30_ratio    16.9%
-
-### Key Findings
-
-* Random Forest outperformed Logistic Regression by approximately 3%.
-* Non-linear relationships exist within the engineered technical indicators.
-* Daily Return emerged as the strongest predictive feature.
-* RSI and Volatility contributed significantly more information than suggested by simple correlation analysis.
-* Despite improvement, predictive performance remained modest, indicating that short-term   Bitcoin direction is inherently difficult to forecast using traditional technical indicators alone.
-
 ### Conclusion
 
-The results suggest that technical indicators contain a small amount of predictive signal, but not enough to reliably forecast short-term Bitcoin price direction. More advanced features such as MACD, Bollinger Bands, and longer-term momentum indicators may improve performance in future iterations of the project.
-
-## Key Insights
-
-* Bitcoin experiences strong volatility clustering around major market events.
-* The COVID-19 crash produced the largest single-day loss and highest volatility regime.
-* Trading volume showed almost no relationship with volatility.
-* Bitcoin volatility appears lower in recent years than in earlier speculative cycles.
-* Traditional technical indicators showed weak predictive power for future price direction.
-* Predicting short-term Bitcoin movement remains extremely challenging.
+Removing lower-ranked features reduced performance, suggesting that weaker indicators still contributed complementary information.
 
 ---
 
-## Future Work
+# Experiment Summary
 
-* Random Forest Classification
-* XGBoost Modeling
-* Feature Importance Analysis
-* MACD Indicator
-* Bollinger Bands
+| Model Configuration                     |   Accuracy |
+| --------------------------------------- | ---------: |
+| Logistic Regression                     |     49.22% |
+| Logistic Regression + Momentum Features |     48.87% |
+| Logistic Regression (7-Day Target)      |     50.66% |
+| XGBoost                                 |     50.66% |
+| Random Forest + MACD_ratio              |     51.25% |
+| Random Forest + Return_7D + Return_30D  |     51.49% |
+| Random Forest + BB_position             |     51.61% |
+| Random Forest (Top 3 Features Only)     |     51.01% |
+| Random Forest (Baseline)                | **52.09%** |
+
+---
+
+# Key Insights
+
+* Bitcoin exhibits strong volatility clustering around major market events.
+* The COVID-19 crash produced the largest daily loss and highest volatility regime.
+* Trading volume showed almost no relationship with volatility.
+* Bitcoin volatility appears lower in recent years than during earlier speculative cycles.
+* Technical indicators contain a small but measurable amount of predictive signal.
+* Non-linear models consistently outperformed linear models.
+* Daily Return, RSI, and Volatility emerged as the most informative features.
+* Additional indicators often captured information but failed to improve generalization performance.
+* Predicting short-term Bitcoin direction remains extremely challenging using historical OHLCV data alone.
+
+---
+
+# Final Conclusion
+
+This project investigated whether historical Bitcoin market data and technical indicators could be used to predict future price direction.
+
+Across multiple machine learning algorithms and feature engineering experiments, model performance remained within a narrow range of approximately 49–52% accuracy.
+
+The strongest-performing model was the baseline Random Forest classifier, achieving **52.09% accuracy**.
+
+Several additional indicators—including MACD, Bollinger Bands, and multi-day momentum features—captured meaningful market information and received substantial feature importance scores. However, none improved predictive performance beyond the baseline model.
+
+These findings suggest that while traditional technical indicators contain a small amount of predictive signal, much of the useful information is already captured by the original feature set. The results also highlight the inherent difficulty of forecasting short-term Bitcoin price direction using only historical price and volume data.
+
+Overall, the project demonstrates a complete data science workflow involving exploratory analysis, feature engineering, hypothesis testing, machine learning experimentation, and evidence-based evaluation of predictive performance.
+
+---
+
+# Future Work
+
+* Walk-Forward Time Series Validation
+* Alternative Data Sources (News, Sentiment, Macroeconomic Indicators)
 * Market Regime Detection
 * Volatility Forecasting
-* Interactive Dashboard Development
-* SHAP-Based Explainability
+* SHAP-Based Model Explainability
+* Deep Learning Models (LSTM / Transformers)
+* Real-Time Prediction Pipeline
+* Interactive Streamlit Dashboard
 
 ---
 
-## Technologies Used
+# Technologies Used
 
 * Python
 * Pandas
@@ -630,12 +488,13 @@ The results suggest that technical indicators contain a small amount of predicti
 * Matplotlib
 * Seaborn
 * Scikit-Learn
+* XGBoost
 * Jupyter Notebooks
 * Git
 * GitHub
 
 ---
 
-## Author
+# Author
 
-Built as a hands-on Data Science project to explore financial time series analysis, feature engineering, hypothesis testing, and predictive modeling using Bitcoin market data.
+Built as a hands-on Data Science and Machine Learning project to explore financial time-series analysis, feature engineering, hypothesis testing, and predictive modeling using Bitcoin market data.
