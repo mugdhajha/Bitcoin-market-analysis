@@ -81,6 +81,10 @@ The asset demonstrated increasingly complex market behavior as adoption expanded
 
 ---
 
+## Bitcoin Price Evolution
+
+![Bitcoin Price Evolution](figures/price.png)
+
 ## Largest Daily Gain
 
 | Metric | Value      |
@@ -104,6 +108,10 @@ The largest daily decline occurred during the COVID-19 market panic rather than 
 ## Volatility Analysis
 
 A 30-day rolling volatility measure was created to study market risk over time.
+
+## Average Volatility by Year
+
+![Yearly Volatility](figures/yearly_volatility.png)
 
 ### Findings
 
@@ -276,6 +284,11 @@ MA7_vs_MA30_ratio     18.8%
 Close_vs_MA30_ratio   16.9%
 ```
 
+## Random Forest Feature Importance
+
+![Feature Importance](figures/rf_feature_importance.png)
+
+
 ### Key Findings
 
 * Random Forest outperformed Logistic Regression.
@@ -325,6 +338,12 @@ RSI                    15.5%
 * Performance remained below the baseline Random Forest model.
 
 ---
+
+## Model Comparison
+
+![Model Comparison](figures/model_comparison.png)
+
+The baseline Random Forest model achieved the highest out-of-sample accuracy (52.09%). Additional feature engineering experiments and more complex models such as XGBoost failed to improve predictive performance.
 
 # Feature Engineering Experiments
 
