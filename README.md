@@ -394,6 +394,85 @@ MA7_vs_MA30_ratio
 
 This suggests that short-term Bitcoin direction is difficult to predict using technical indicators derived solely from historical price and volume data.
 
+### Experiment 4: Feature Selection
+
+#### Hypothesis
+
+Previous experiments consistently identified the following features as the strongest predictors:
+
+```text
+Daily_return
+RSI
+Volatility
+```
+
+It was hypothesized that removing lower-ranked features could reduce noise and improve model generalization.
+
+The reduced feature set consisted of:
+
+```text
+Daily_return
+RSI
+Volatility
+```
+
+#### Results
+
+Accuracy:
+
+```text
+51.01%
+```
+
+Feature Importance:
+
+```text
+RSI            34.3%
+Daily_return   34.1%
+Volatility     31.6%
+```
+
+#### Findings
+
+The reduced model relied heavily on the three selected features, assigning nearly equal importance to each.
+
+However, despite retaining only the strongest predictors, model performance declined relative to the baseline Random Forest model.
+
+Comparison:
+
+| Model Configuration    | Accuracy   |
+| ---------------------- | ---------- |
+| Baseline Random Forest | **52.09%** |
+| Top 3 Features Only    | 51.01%     |
+
+#### Interpretation
+
+The results suggest that lower-ranked features still contribute useful information to the prediction task.
+
+Although features such as:
+
+```text
+Close_vs_MA30_ratio
+MA7_vs_MA30_ratio
+```
+
+appeared less important individually, they provided complementary information that improved overall model performance.
+
+This demonstrates an important machine learning principle:
+
+> Features with lower importance scores are not necessarily useless. Multiple weak predictors can collectively improve model performance.
+
+#### Conclusion
+
+The hypothesis was not supported.
+
+* Removing lower-ranked features did not improve generalization.
+* Model accuracy decreased by approximately 1%.
+* The original feature set remained the strongest-performing configuration.
+
+This suggests that predictive information is distributed across multiple indicators rather than being concentrated in only a few dominant features.
+
+
 
 ## Experiment Summary
 
@@ -405,21 +484,28 @@ This suggests that short-term Bitcoin direction is difficult to predict using te
 | Random Forest (Baseline)                | **52.09%** |
 | Random Forest + MACD_ratio              | 51.25%     |
 | Random Forest + Return_7D + Return_30D  | 51.49%     |
+| Random Forest + BB_position             | 51.61%     |
+| Random Forest (Top 3 Features Only)     | 51.01%     |
 
----
-
-## Key Takeaways
+## Updated Key Takeaways
 
 * Random Forest consistently outperformed Logistic Regression.
 * Non-linear relationships exist within the technical indicators.
-* Traditional technical indicators contain a small amount of predictive signal.
-* Additional features such as MACD and multi-day momentum increased feature complexity but failed to improve out-of-sample accuracy.
-* Short-term Bitcoin direction remains difficult to predict using technical indicators derived solely from historical OHLCV data.
-* Model performance suggests that additional information sources or alternative feature engineering approaches may be required to achieve meaningful predictive gains.
+* Daily Return, RSI, and Volatility emerged as the most consistently important features across experiments.
+* MACD, Bollinger Bands, and Multi-Day Momentum features contained information but failed to improve out-of-sample accuracy.
+* Feature selection experiments showed that lower-ranked indicators still contributed complementary predictive information.
+* The baseline Random Forest model remained the best-performing configuration with an accuracy of 52.09%.
+* Short-term Bitcoin direction remains difficult to predict using traditional technical indicators derived solely from historical OHLCV data.
+* The results suggest that additional data sources or fundamentally different features may be required to achieve meaningful predictive improvements.
 
-## Conclusion
+## Overall Conclusion
 
-Multiple momentum and volatility-based indicators were evaluated. Although several engineered features achieved high model importance, none improved out-of-sample performance beyond the baseline Random Forest model (52.09%). This suggests that additional technical indicators largely capture information already present in the original feature set.
+Across multiple feature engineering and model experimentation cycles, the strongest-performing model remained the baseline Random Forest classifier with an accuracy of 52.09%.
+
+Several additional indicators—including MACD, Bollinger Bands, and multi-day momentum features—received substantial feature importance scores, demonstrating that they captured meaningful market information. However, none improved out-of-sample predictive performance.
+
+These findings suggest that while technical indicators contain a small amount of predictive signal, much of the useful information is already captured by the original feature set. The results also highlight the inherent difficulty of forecasting short-term Bitcoin price direction using only historical price and volume data.
+
 
 
 
