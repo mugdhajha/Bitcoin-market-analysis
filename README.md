@@ -222,6 +222,48 @@ This explains the model's near-random performance.
 
 ---
 
+### Model 2
+
+Random forest Classifier
+
+### Motivation
+
+Unlike Logistic Regression, Random Forest can capture non-linear relationships and interactions between technical indicators.
+
+### Results
+
+### Random Forest
+
+Accuracy:
+
+52.09%
+
+### Classification Report:
+
+Precision: 0.52
+Recall: 0.52
+F1-Score: 0.51
+
+### Feature Importance Ranking
+
+1. Daily Return           22.8%
+2. RSI                    20.9%
+3. Volatility             20.6%
+4. MA7_vs_MA30_ratio      18.8%
+5. Close_vs_MA30_ratio    16.9%
+
+### Key Findings
+
+* Random Forest outperformed Logistic Regression by approximately 3%.
+* Non-linear relationships exist within the engineered technical indicators.
+* Daily Return emerged as the strongest predictive feature.
+* RSI and Volatility contributed significantly more information than suggested by simple correlation analysis.
+* Despite improvement, predictive performance remained modest, indicating that short-term   Bitcoin direction is inherently difficult to forecast using traditional technical indicators alone.
+
+### Conclusion
+
+The results suggest that technical indicators contain a small amount of predictive signal, but not enough to reliably forecast short-term Bitcoin price direction. More advanced features such as MACD, Bollinger Bands, and longer-term momentum indicators may improve performance in future iterations of the project.
+
 ## Key Insights
 
 * Bitcoin experiences strong volatility clustering around major market events.
