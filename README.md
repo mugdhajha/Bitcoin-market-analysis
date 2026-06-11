@@ -176,6 +176,66 @@ The hypothesis was supported.
 
 ---
 
+## Feature Engineering Experiments
+
+### Experiment 1: Adding MACD
+
+#### Hypothesis
+
+The Moving Average Convergence Divergence (MACD) indicator captures momentum by measuring the difference between short-term and long-term exponential moving averages. Since momentum-related features such as Daily Return and RSI showed strong importance in the baseline Random Forest model, MACD was expected to provide additional predictive signal.
+
+#### Implementation
+
+MACD was computed as:
+
+```text
+MACD = EMA12 - EMA26
+```
+
+To account for Bitcoin's large price appreciation over time, a normalized feature was created:
+
+```text
+MACD_ratio = MACD / Close
+```
+
+#### Results
+
+| Model                      | Accuracy |
+| -------------------------- | -------- |
+| Baseline Random Forest     | 52.09%   |
+| Random Forest + MACD_ratio | 51.25%   |
+
+Feature Importance Ranking:
+
+```text
+Daily_return          19.2%
+Volatility            18.0%
+RSI                   17.3%
+MACD_ratio            17.2%
+Close_vs_MA30_ratio   14.4%
+MA7_vs_MA30_ratio     13.9%
+```
+
+#### Interpretation
+
+Although MACD_ratio became one of the most important features in the Random Forest model, overall test accuracy decreased.
+
+This suggests that MACD contains information that the model actively uses, but the discovered patterns do not generalize well to unseen data. In other words, MACD may introduce predictive patterns that are unstable across different market regimes.
+
+#### Conclusion
+
+The hypothesis was partially supported.
+
+* MACD captured meaningful market information.
+* The model assigned high importance to the feature.
+* However, the additional information did not improve out-of-sample predictive performance.
+
+This highlights an important machine learning principle:
+
+> A feature can appear important to a model while still failing to improve real-world prediction accuracy.
+
+
+
 ## Predictive Modeling
 
 ### Objective
