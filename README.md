@@ -470,6 +470,92 @@ Removing lower-ranked features reduced performance, suggesting that weaker indic
 
 ---
 
+## Explainable AI with SHAP
+
+To enhance model interpretability and transparency, SHAP (SHapley Additive Explanations) was used to analyze how individual features influence the machine learning model's predictions. While traditional feature importance methods identify which variables are important, SHAP provides a deeper understanding of both global feature behavior and the reasoning behind individual predictions.
+
+### Why SHAP?
+
+Machine learning models often act as "black boxes," making it difficult to understand why a particular prediction was made. SHAP addresses this challenge by assigning each feature a contribution value based on cooperative game theory principles. These values quantify how much each feature pushes a prediction toward a positive or negative outcome.
+
+By incorporating SHAP, the project not only predicts Bitcoin market direction but also provides explainable insights into the factors driving those predictions.
+
+### SHAP Analysis
+
+The trained model was analyzed using SHAP to evaluate the influence of engineered technical indicators on prediction outcomes.
+
+The analysis focused on:
+
+* Global feature importance across the entire dataset
+* Directional impact of individual features
+* Local explanations for individual predictions
+* Feature interactions and contribution patterns
+
+### Key Findings
+
+The SHAP analysis revealed that the model primarily relies on momentum and volatility-based indicators when predicting Bitcoin price direction.
+
+Key observations include:
+
+* **Daily Return** emerged as the most influential feature, indicating that recent price movements strongly affect future directional predictions.
+* **Volatility** played a significant role in model decision-making, reflecting the importance of market uncertainty and risk.
+* **RSI (Relative Strength Index)** contributed meaningfully to capturing overbought and oversold market conditions.
+* **MA7 vs MA30 Ratio** provided valuable trend information by measuring the relationship between short-term and long-term moving averages.
+* **Close vs MA30 Ratio** helped quantify the market's position relative to longer-term trends.
+
+### SHAP Summary Plot
+
+The SHAP Summary Plot provides a global view of feature influence across all observations.
+
+![SHAP Summary Plot](figures/shap_summary.png)
+
+Insights obtained from the summary plot:
+
+* Features are ranked according to their average impact on model predictions.
+* The distribution of SHAP values highlights how feature values influence prediction direction.
+* Higher feature values can either increase or decrease the likelihood of a positive prediction depending on market conditions.
+* Daily Return and Volatility consistently exhibited the strongest influence on model outputs.
+
+### SHAP Feature Importance Plot
+
+The SHAP Feature Importance Plot ranks variables according to their average absolute SHAP values.
+
+![SHAP Feature Importance Plot](figures/shap_bar.png)
+
+This visualization confirms that:
+
+* Daily Return is the most important predictive feature.
+* Volatility and RSI are among the strongest market indicators.
+* Trend-based moving average features contribute significantly to prediction quality.
+* The importance ranking aligns with traditional feature importance metrics, increasing confidence in model reliability.
+
+### SHAP Waterfall Plot
+
+The Waterfall Plot explains individual predictions by showing how each feature contributes to the final model output.
+
+![SHAP Waterfall Plot](figures/shap_waterfall.png)
+
+The waterfall visualization demonstrates:
+
+* The baseline prediction before feature contributions are considered.
+* Features that push predictions toward bullish market behavior.
+* Features that push predictions toward bearish market behavior.
+* The cumulative effect of all feature contributions resulting in the final prediction.
+
+This local interpretability enables a detailed understanding of why the model generated a particular forecast under specific market conditions.
+
+### Interpretation
+
+The SHAP analysis indicates that the model learns meaningful financial patterns rather than relying on random correlations. Momentum-related indicators such as Daily Return and RSI drive a significant portion of predictive performance, while volatility and moving-average-based features provide additional contextual information regarding market trends and uncertainty.
+
+The consistency between traditional feature importance metrics and SHAP explanations suggests that the model captures realistic market behavior and produces interpretable predictions.
+
+### Conclusion
+
+By integrating SHAP into the modeling pipeline, the project achieves both predictive capability and explainability. This approach enhances trust in the model, enables deeper analysis of prediction drivers, and demonstrates the practical application of Explainable AI (XAI) techniques in financial machine learning.
+
+The use of SHAP transforms the model from a purely predictive system into an interpretable decision-support tool capable of providing actionable insights into Bitcoin market behavior.
+
 # Final Conclusion
 
 This project investigated whether historical Bitcoin market data and technical indicators could be used to predict future price direction.
