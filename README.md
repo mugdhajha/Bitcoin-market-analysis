@@ -1,23 +1,37 @@
-# ₿ Bitcoin Market Analysis & Predictive Modeling
+# ₿ Bitcoin Market Intelligence Platform
 
 ## Overview
 
-This project presents an end-to-end data science investigation of Bitcoin's historical market behavior from September 2014 to June 2026 using daily OHLCV (Open, High, Low, Close, Volume) data.
+This project presents a complete Bitcoin Market Intelligence Platform that combines data science, machine learning, explainable AI, quantitative trading research, and Retrieval-Augmented Generation (RAG).
 
-The primary objective was to determine whether commonly used technical indicators can predict future Bitcoin price direction and to evaluate the effectiveness of different machine learning models and feature engineering techniques.
+Using over 11 years of Bitcoin OHLCV market data (2014–2026), the project investigates whether technical indicators contain predictive information about future price direction and evaluates how effectively machine learning models can transform that information into actionable trading signals.
 
-The project follows a complete data science workflow:
+The platform extends beyond traditional forecasting by integrating:
 
-* Data Understanding
-* Exploratory Data Analysis (EDA)
-* Feature Engineering
-* Hypothesis Testing
-* Predictive Modeling
-* Model Evaluation
-* Experiment Tracking
-* Insight Generation
+* Interactive Streamlit Research Terminal
+* Explainable AI using SHAP
+* Quantitative Trading Strategy Backtesting
+* Walk-Forward Time-Series Evaluation
+* AI-Powered Bitcoin Research Assistant
+* Live Cryptocurrency News Retrieval
+* Retrieval-Augmented Generation (RAG) using FAISS and Gemini
+
+The project combines structured market analytics with real-time qualitative intelligence, creating a unified environment for Bitcoin market research and decision support.
+
+### Project Highlights
+
+* Analyzed 11+ years of Bitcoin market data.
+* Developed Logistic Regression, Random Forest, and XGBoost forecasting models.
+* Applied SHAP explainability techniques to interpret model predictions.
+* Designed and backtested a machine learning trading strategy that achieved **51.57% return versus 23.50% Buy-and-Hold** during the evaluation period.
+* Built a professional Streamlit-based Bitcoin Research Terminal.
+* Developed a Retrieval-Augmented Generation (RAG) assistant using NewsAPI, Sentence Transformers, FAISS, and Gemini 2.5 Flash to generate grounded Bitcoin market analysis from live news sources.
 
 ---
+
+## Dashboard preview
+
+
 
 ## Dataset
 
@@ -224,9 +238,11 @@ Binary Classification:
 
 ## Evaluation Strategy
 
-Chronological Train-Test Split (80/20)
+A chronological time-series evaluation framework was used to prevent look-ahead bias and data leakage.
 
-This prevents information leakage from future observations into the training set.
+The dataset was split using an 80/20 temporal train-test split, ensuring that all predictions were generated on future unseen observations.
+
+In addition, walk-forward style evaluation principles were followed throughout experimentation to better reflect real-world forecasting conditions where future market data is unavailable during model training.
 
 ---
 
@@ -602,16 +618,141 @@ Backtesting results indicate that machine learning-based trading signals can pro
 
 This highlights the importance of evaluating financial machine learning models using portfolio-level performance metrics such as cumulative return, Sharpe Ratio, and drawdown rather than relying solely on classification accuracy.
 
-## AI Research Assistant
+# AI-Powered Market Intelligence Assistant
 
-Built a Retrieval-Augmented Generation (RAG) system using:
+## Overview
 
-- NewsAPI
-- Sentence Transformers
-- FAISS
-- Gemini 2.5 Flash
+To complement quantitative forecasting and statistical analysis, an AI-powered Bitcoin Research Assistant was developed using Retrieval-Augmented Generation (RAG).
 
-The assistant retrieves relevant Bitcoin news articles and generates grounded market analysis with source attribution.
+The assistant enables users to ask natural language questions about Bitcoin markets and receive grounded answers generated from the latest cryptocurrency news rather than relying solely on a large language model's pre-trained knowledge.
+
+This transforms the platform from a traditional machine learning project into an interactive market intelligence system capable of combining structured market analytics with real-time qualitative insights.
+
+---
+
+## Motivation
+
+Financial markets evolve rapidly, making static machine learning models insufficient for understanding current market conditions.
+
+While predictive models provide forecasts based on historical data, they cannot explain recent market events such as:
+
+* ETF developments
+* Regulatory announcements
+* Institutional adoption
+* Macroeconomic events
+* Geopolitical developments
+
+To address this limitation, a Retrieval-Augmented Generation (RAG) pipeline was implemented.
+
+---
+
+## System Architecture
+
+```text
+User Query
+     ↓
+Sentence Transformer Embedding
+     ↓
+FAISS Vector Search
+     ↓
+Top Relevant Bitcoin Articles
+     ↓
+Gemini 2.5 Flash
+     ↓
+Grounded Market Analysis
+     ↓
+Answer + Source Attribution
+```
+
+---
+
+## Retrieval Pipeline
+
+### News Collection
+
+Live Bitcoin and cryptocurrency news articles are collected using NewsAPI.
+
+Each article stores:
+
+* Title
+* Description
+* Content
+* Source
+* Publication Date
+* URL
+
+The resulting corpus forms a continuously refreshable knowledge base.
+
+### Semantic Embeddings
+
+Articles are embedded using:
+
+```text
+all-MiniLM-L6-v2
+```
+
+from Sentence Transformers.
+
+Embeddings capture semantic meaning rather than simple keyword matching, allowing the system to retrieve contextually relevant articles.
+
+### Vector Database
+
+Embeddings are indexed using FAISS.
+
+This enables fast similarity search across the news corpus and provides low-latency retrieval suitable for interactive applications.
+
+### Grounded Generation
+
+The most relevant articles are retrieved and supplied to Gemini 2.5 Flash.
+
+The model is instructed to:
+
+* Use only retrieved information
+* Summarize key developments
+* Explain market drivers
+* Discuss potential implications
+* Avoid unsupported claims
+
+This grounding process significantly reduces hallucinations while improving factual consistency.
+
+---
+
+## Example Output
+
+Example Query:
+
+```text
+Why is Bitcoin rising today?
+```
+
+Generated Analysis:
+
+* Summary of current market developments
+* Key drivers behind price movements
+* Potential market implications
+* Source attribution
+
+This allows users to understand not only what is happening in the market, but also why it is happening.
+
+---
+
+## Technologies Used
+
+* NewsAPI
+* Sentence Transformers
+* all-MiniLM-L6-v2
+* FAISS
+* Gemini 2.5 Flash
+* Streamlit
+
+---
+
+## Impact
+
+The AI Research Assistant bridges the gap between quantitative modeling and qualitative market intelligence.
+
+By combining machine learning forecasts, explainable AI, quantitative backtesting, and retrieval-augmented language models, the platform provides a comprehensive environment for Bitcoin market research and decision support.
+
 
 
 # Final Conclusion
@@ -632,16 +773,17 @@ Overall, the project demonstrates a complete data science workflow involving exp
 
 # Future Work
 
-* Walk-Forward Time Series Validation
-* Alternative Data Sources (News, Sentiment, Macroeconomic Indicators)
-* Market Regime Detection
-* Volatility Forecasting
-* SHAP-Based Model Explainability
+* Hybrid RAG using Bitcoin Whitepaper + Live News
+* Real-Time News Refresh Pipeline
+* Sentiment Analysis from Social Media and News Sources
+* Portfolio Optimization and Position Sizing
 * Deep Learning Models (LSTM / Transformers)
-* Real-Time Prediction Pipeline
-* Interactive Streamlit Dashboard
+* Multi-Asset Cryptocurrency Analysis
+* Real-Time Trading Signal Generation
+* Reinforcement Learning Based Trading Strategies
 
 ---
+
 
 # Technologies Used
 
