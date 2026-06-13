@@ -1,12 +1,21 @@
 from pathlib import Path
 
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))
+
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
-
+from rag.rag_pipeline import ask_rag
 
 st.set_page_config(
     page_title="BTC Quant Terminal",
@@ -233,7 +242,7 @@ with st.sidebar:
     st.divider()
     page = st.radio(
         "WORKSPACE",
-        ["Terminal", "Market Structure", "Technical Lab", "Risk & Regimes", "Models", "Strategy", "Explainability"],
+        ["Terminal", "Market Structure", "Technical Lab", "Risk & Regimes", "Models", "Strategy", "Explainability","AI Analyst"],
         label_visibility="visible",
     )
     st.divider()
@@ -508,7 +517,7 @@ elif page == "Strategy":
         """
     )
 
-else:
+elif page=="Explainability":
     header("ML / EXPLAINABILITY", "How the Random Forest Makes Decisions", "SHAP analysis connects model outputs to economically meaningful momentum, volatility, and trend features.")
     a, b, c = st.columns(3)
     with a:
@@ -530,6 +539,52 @@ else:
         The agreement between Random Forest feature importance and SHAP strengthens the interpretation that the model learned plausible market relationships rather than relying only on random correlations. Still, explanation quality does not eliminate the weak-signal and regime-change risks visible in the out-of-sample results.
         """
     )
+
+elif page == "AI Analyst":
+
+    header(
+        "AI / RESEARCH ASSISTANT",
+        "Bitcoin AI Analyst...",
+        "Ask questions about current Bitcoin news. Responses are grounded in retrieved articles from the live news knowledge base."
+    )
+
+    query = st.text_input(
+        "Ask the Bitcoin AI Analyst",
+        placeholder="Why is Bitcoin rising today?"
+    )
+
+    if query:
+
+        with st.spinner("Analyzing latest news..."):
+
+            answer, docs = ask_rag(query)
+
+        st.markdown(
+            f"""
+        <div style="
+        background: rgba(7,17,13,.92);
+        border:1px solid #173c2b;
+        padding:20px;
+        border-radius:10px;
+        margin-bottom:20px;
+        ">
+        {answer}
+        </div>
+        """,
+            unsafe_allow_html=True
+        )
+
+        st.markdown("### Sources")
+
+        for doc in docs:
+
+            title = doc["meta"]["title"]
+            source = doc["meta"]["source"]
+            url = doc["meta"]["url"]
+
+            st.markdown(
+                f"• [{title}]({url}) — {source}"
+            )
 
 st.divider()
 st.markdown(

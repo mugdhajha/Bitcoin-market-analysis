@@ -602,6 +602,17 @@ Backtesting results indicate that machine learning-based trading signals can pro
 
 This highlights the importance of evaluating financial machine learning models using portfolio-level performance metrics such as cumulative return, Sharpe Ratio, and drawdown rather than relying solely on classification accuracy.
 
+## AI Research Assistant
+
+Built a Retrieval-Augmented Generation (RAG) system using:
+
+- NewsAPI
+- Sentence Transformers
+- FAISS
+- Gemini 2.5 Flash
+
+The assistant retrieves relevant Bitcoin news articles and generates grounded market analysis with source attribution.
+
 
 # Final Conclusion
 
