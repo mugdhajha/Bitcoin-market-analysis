@@ -1,5 +1,9 @@
 # ₿ Bitcoin Market Intelligence Platform
 
+## Demo
+
+the project is live at: https://bitcoin-market-analysis-8nbu4cn6puxkscn5qq5p9r.streamlit.app/
+
 ## Overview
 
 This project presents a complete Bitcoin Market Intelligence Platform that combines data science, machine learning, explainable AI, quantitative trading research, and Retrieval-Augmented Generation (RAG).
