@@ -16,8 +16,11 @@ model = genai.GenerativeModel(
 )
 
 def ask_rag(query):
+    print("STEP 1: retrieve start")
 
     docs = retrieve(query)
+
+    print("STEP 2: retrieve complete")
 
     context = "\n\n".join(
         f"""
@@ -51,9 +54,17 @@ Provide:
 If the information is not present in the retrieved articles,
 say so clearly.
 """
+    print("calling gemini")
 
-    response = model.generate_content(
-        prompt
-    )
+    try:
+        response = model.generate_content(
+            prompt
+        )
+        print("SUCESS")
 
-    return response.text, docs
+        print("gemini returned")
+
+        return response.text, docs
+    except Exception as e:
+        print("GEMINI ERROR:",e)
+        raise e
