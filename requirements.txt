@@ -1,15 +1,26 @@
+# streamlit
+# pandas
+# numpy
+# matplotlib
+# plotly
+# scikit-learn
+# xgboost
+# shap
+# scipy
+# faiss-cpu
+# sentence-transformers
+# google-generativeai
+# python-dotenv
+# requests
+# joblib
 streamlit
 pandas
 numpy
-matplotlib
 plotly
-scikit-learn
-xgboost
-shap
-scipy
 faiss-cpu
 sentence-transformers
 google-generativeai
 python-dotenv
 requests
-joblib
+torch
+torchvision

@@ -18,4 +18,3 @@ data/processed/
 #enviornment variables
 .env
 
-rag/vectorstore/
