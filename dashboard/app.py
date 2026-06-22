@@ -526,12 +526,12 @@ elif page=="Explainability":
         insight("Risk context", "Volatility", "Market uncertainty materially changed the model's directional assessment.")
     with c:
         insight("Momentum context", "RSI", "Overbought and oversold conditions contributed meaningful signal.")
-    tab1, tab2, tab3 = st.tabs(["GLOBAL IMPACT", "MEAN IMPORTANCE", "LOCAL DECISION"])
+    tab1, tab2 = st.tabs(["GLOBAL IMPACT",  "LOCAL DECISION"])
     with tab1:
         show_figure("shap_summary.png", "SHAP summary: feature values and their directional impact across observations.")
+    # with tab2:
+    #     show_figure("shap_bar.png", "Mean absolute SHAP values rank global feature influence.")
     with tab2:
-        show_figure("shap_bar.png", "Mean absolute SHAP values rank global feature influence.")
-    with tab3:
         show_figure("shap_waterfall.png", "Waterfall explanation: feature contributions for one individual prediction.")
     st.markdown("#### Interpretation")
     st.markdown(
